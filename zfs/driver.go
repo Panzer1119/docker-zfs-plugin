@@ -41,7 +41,7 @@ func (zd *ZfsDriver) qualifyDatasetName(name string) string {
 	return strings.Join([]string{zd.rds.Name, name}, "/")
 }
 
-func (zd *ZfsDriver) unqalifyDatasetName(name string) string {
+func (zd *ZfsDriver) unqualifyDatasetName(name string) string {
 	return strings.SplitAfter(name, zd.rds.Name+"/")[1]
 }
 
@@ -76,7 +76,7 @@ func (zd *ZfsDriver) List() (*volume.ListResponse, error) {
 			log.WithField("name", ds.Name).Error("Failed to get mountpoint from dataset")
 			continue
 		}
-		vols = append(vols, &volume.Volume{Name: zd.unqalifyDatasetName(ds.Name), Mountpoint: mp})
+		vols = append(vols, &volume.Volume{Name: zd.unqualifyDatasetName(ds.Name), Mountpoint: mp})
 	}
 
 	return &volume.ListResponse{Volumes: vols}, nil
@@ -110,10 +110,10 @@ func (zd *ZfsDriver) getVolume(name string) (*volume.Volume, error) {
 	ts, err := ds.GetCreation()
 	if err != nil {
 		log.WithError(err).Error("Failed to get creation property from zfs dataset")
-		return &volume.Volume{Name: zd.unqalifyDatasetName(name), Mountpoint: mp}, nil
+		return &volume.Volume{Name: zd.unqualifyDatasetName(name), Mountpoint: mp}, nil
 	}
 
-	return &volume.Volume{Name: zd.unqalifyDatasetName(name), Mountpoint: mp, CreatedAt: ts.Format(time.RFC3339)}, nil
+	return &volume.Volume{Name: zd.unqualifyDatasetName(name), Mountpoint: mp, CreatedAt: ts.Format(time.RFC3339)}, nil
 }
 
 func (zd *ZfsDriver) getMP(name string) (string, error) {
