@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	zfsdriver "github.com/apetresc/docker-zfs-plugin/zfs"
+	zfsdriver "github.com/Panzer1119/docker-zfs-plugin/zfs"
 	"github.com/coreos/go-systemd/activation"
 	"github.com/docker/go-plugins-helpers/volume"
 	log "github.com/sirupsen/logrus"
@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	version         = "1.1.0"
+	version         = "1.1.1"
 	shutdownTimeout = 10 * time.Second
 )
 

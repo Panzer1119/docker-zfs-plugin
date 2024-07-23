@@ -3,13 +3,13 @@ ARG PACKAGE_VERSION=0.1-1
 
 FROM golang:1.17.6-alpine AS build
 
-WORKDIR $GOPATH/src/github.com/csachs/docker-zfs-plugin
+WORKDIR $GOPATH/src/github.com/Panzer1119/docker-zfs-plugin
 
 COPY . .
 
 ARG CGO_ENABLED=0
 
-RUN go mod edit -replace github.com/apetresc/docker-zfs-plugin=$GOPATH/src/github.com/csachs/docker-zfs-plugin && \
+RUN go mod edit -replace github.com/Panzer1119/docker-zfs-plugin=$GOPATH/src/github.com/Panzer1119/docker-zfs-plugin && \
     cat go.mod && \
     go build -o /docker-zfs-plugin
 
@@ -43,14 +43,14 @@ RUN \
         echo "Section: admin" >> control && \
         echo "Priority: optional" >> control && \
         echo "Architecture: amd64" >> control && \
-        echo "Maintainer: Christian Sachs <sachs.christian@gmail.com>" >> control && \
-        echo "Description: Packaged version of github.com/csachs/docker-zfs-plugin" >> control && \
+        echo "Maintainer: Paul Hagedorn <panzer1119@gmail.com>" >> control && \
+        echo "Description: Packaged version of github.com/Panzer1119/docker-zfs-plugin" >> control && \
     echo "Done"
 
 COPY --from=build /docker-zfs-plugin /workspace/${PACKAGE_NAME}_${PACKAGE_VERSION}/usr/bin/
 COPY etc/ /workspace/${PACKAGE_NAME}_${PACKAGE_VERSION}/etc
 
-WORKDIR /workspace 
+WORKDIR /workspace
 RUN dpkg-deb --build ${PACKAGE_NAME}_${PACKAGE_VERSION}
 
 FROM scratch

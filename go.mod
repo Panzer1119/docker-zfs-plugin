@@ -1,4 +1,4 @@
-module github.com/apetresc/docker-zfs-plugin
+module github.com/Panzer1119/docker-zfs-plugin
 
 go 1.13
 
